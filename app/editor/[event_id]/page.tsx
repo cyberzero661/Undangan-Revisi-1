@@ -46,6 +46,7 @@ export default function EditorPage() {
   const [guestInput, setGuestInput] = useState("");
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [coverImage, setCoverImage] = useState<string>("");
+  const [musicUploading, setMusicUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(!isNew);
   const [error, setError] = useState<string | null>(null);
@@ -117,13 +118,21 @@ export default function EditorPage() {
       return;
     }
     try {
+      if (type === "music") setMusicUploading(true);
       const result = await uploadFile(file, type === "image" ? "gallery" : "media");
       if (type === "image") {
         setGalleryImages((prev) => [...prev, result.url]);
         setFormData((prev) => ({ ...prev, gallery_images: [...prev.gallery_images, result.url] }));
-      } else if (type === "music") setFormData((prev) => ({ ...prev, music_url: result.url }));
+      } else if (type === "music") {
+        setFormData((prev) => ({ ...prev, music_url: result.url }));
+      }
       else setFormData((prev) => ({ ...prev, video_url: result.url }));
     } catch (err: any) { alert(err.message || "Upload gagal"); }
+    finally { if (type === "music") setMusicUploading(false); }
+  };
+
+  const removeMusic = () => {
+    setFormData((prev) => ({ ...prev, music_url: "" }));
   };
 
   const removeGalleryImage = (index: number) => {
@@ -325,10 +334,31 @@ export default function EditorPage() {
               <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                 <div>
                   <h3 className="font-medium text-gray-800 mb-3">Musik Latar</h3>
-                  <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors mb-2">
-                    <Upload className="w-5 h-5 text-gray-400" /><span className="text-sm text-gray-500">Upload MP3</span>
-                    <input type="file" accept="audio/mp3,audio/mpeg" className="hidden" onChange={(e) => handleFileUpload(e, "music")} />
-                  </label>
+                  {formData.music_url ? (
+                    <div className="flex items-center gap-3 p-3 bg-primary-50 rounded-lg border border-primary-200 mb-3">
+                      <Music className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-700 truncate">Musik latar diupload</p>
+                        <p className="text-xs text-gray-500 truncate">{formData.music_url.split('/').pop()}</p>
+                      </div>
+                      <button onClick={removeMusic} className="p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors mb-3">
+                      {musicUploading ? <Loader2 className="w-5 h-5 text-gray-400 animate-spin" /> : <Upload className="w-5 h-5 text-gray-400" />}
+                      <span className="text-sm text-gray-500">{musicUploading ? "Mengupload..." : "Upload MP3"}</span>
+                      <input type="file" accept="audio/mp3,audio/mpeg" className="hidden" disabled={musicUploading} onChange={(e) => handleFileUpload(e, "music")} />
+                    </label>
+                  )}
+                  {formData.music_url && (
+                    <label className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors mb-2">
+                      <Upload className="w-4 h-4 text-gray-400" />
+                      <span className="text-sm text-gray-500">Ganti Musik</span>
+                      <input type="file" accept="audio/mp3,audio/mpeg" className="hidden" disabled={musicUploading} onChange={(e) => handleFileUpload(e, "music")} />
+                    </label>
+                  )}
                   <div className="text-center text-gray-400 text-xs mb-2">atau</div>
                   <input type="url" name="music_embed" value={formData.music_embed} onChange={handleInputChange}
                     placeholder="Spotify/SoundCloud embed URL"
