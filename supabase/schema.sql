@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS public.templates (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL,
     thumbnail_url TEXT NOT NULL,
-    category TEXT NOT NULL CHECK (category IN ('modern', 'rustik', 'tradisional', 'minimalis')),
+    category TEXT NOT NULL CHECK (category IN ('modern', 'rustik', 'tradisional', 'minimalis', 'premium')),
     config_data JSONB DEFAULT '{}',
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -29,6 +29,12 @@ CREATE TABLE IF NOT EXISTS public.events (
     title TEXT NOT NULL,
     event_type TEXT NOT NULL CHECK (event_type IN ('pernikahan', 'ultah', 'tasyakuran', 'lainnya')),
     couple_names TEXT,
+    bride_name TEXT,
+    groom_name TEXT,
+    bride_photo TEXT,
+    groom_photo TEXT,
+    bride_parent_name TEXT,
+    groom_parent_name TEXT,
     event_date DATE NOT NULL,
     event_time TIME,
     location_name TEXT NOT NULL,
@@ -37,11 +43,15 @@ CREATE TABLE IF NOT EXISTS public.events (
     music_embed TEXT,
     video_url TEXT,
     video_embed TEXT,
+    youtube_live_url TEXT,
     template_id TEXT,
     background_effect TEXT DEFAULT 'flowers',
     animation_style TEXT DEFAULT 'fade',
     cover_image TEXT,
     gallery_images TEXT[] DEFAULT '{}',
+    love_stories JSONB DEFAULT '[]',
+    digital_envelope JSONB DEFAULT '[]',
+    guest_names TEXT[] DEFAULT '{}',
     status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
     expires_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -59,16 +69,27 @@ CREATE TABLE IF NOT EXISTS public.rsvps (
     submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Wishes table (separate from RSVPs)
+CREATE TABLE IF NOT EXISTS public.wishes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    event_id UUID NOT NULL REFERENCES public.events(id) ON DELETE CASCADE,
+    guest_name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_events_user_id ON public.events(user_id);
 CREATE INDEX IF NOT EXISTS idx_events_event_path ON public.events(event_path);
 CREATE INDEX IF NOT EXISTS idx_rsvps_event_id ON public.rsvps(event_id);
+CREATE INDEX IF NOT EXISTS idx_wishes_event_id ON public.wishes(event_id);
 
 -- Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.templates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.rsvps ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.wishes ENABLE ROW LEVEL SECURITY;
 
 -- Users policies
 CREATE POLICY "Users can view own profile" ON public.users
@@ -104,6 +125,17 @@ CREATE POLICY "Anyone can view RSVPs for published events" ON public.rsvps
     );
 
 CREATE POLICY "Anyone can create RSVPs for published events" ON public.rsvps
+    FOR INSERT WITH CHECK (
+        event_id IN (SELECT id FROM public.events WHERE status = 'published')
+    );
+
+-- Wishes policies
+CREATE POLICY "Anyone can view wishes for published events" ON public.wishes
+    FOR SELECT USING (
+        event_id IN (SELECT id FROM public.events WHERE status = 'published')
+    );
+
+CREATE POLICY "Anyone can create wishes for published events" ON public.wishes
     FOR INSERT WITH CHECK (
         event_id IN (SELECT id FROM public.events WHERE status = 'published')
     );
@@ -147,5 +179,6 @@ INSERT INTO public.templates (name, thumbnail_url, category, config_data) VALUES
 ('Modern Elegant', 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=600&fit=crop', 'modern', '{"primaryColor": "#D4AF37", "secondaryColor": "#1a1a2e", "fontFamily": "Playfair Display", "animation": "fade", "backgroundEffect": "gradient"}'),
 ('Rustic Romance', 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=600&fit=crop', 'rustik', '{"primaryColor": "#8B7355", "secondaryColor": "#F5F5DC", "fontFamily": "Dancing Script", "animation": "slide", "backgroundEffect": "flowers"}'),
 ('Traditional Gold', 'https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=400&h=600&fit=crop', 'tradisional', '{"primaryColor": "#B8860B", "secondaryColor": "#2c1810", "fontFamily": "Cinzel", "animation": "zoom", "backgroundEffect": "ornament"}'),
-('Minimalist White', 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=600&fit=crop', 'minimalis', '{"primaryColor": "#000000", "secondaryColor": "#ffffff", "fontFamily": "Inter", "animation": "fade", "backgroundEffect": "none"}')
+('Minimalist White', 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=600&fit=crop', 'minimalis', '{"primaryColor": "#000000", "secondaryColor": "#ffffff", "fontFamily": "Inter", "animation": "fade", "backgroundEffect": "none"}'),
+('Premium Scrapbook', 'https://images.unsplash.com/photo-1520854221556-9c3a0e1f2b13?w=400&h=600&fit=crop', 'premium', '{"primaryColor": "#c9a84c", "secondaryColor": "#5c4a32", "fontFamily": "Cormorant Garamond", "animation": "fade", "backgroundEffect": "flowers"}')
 ON CONFLICT DO NOTHING;

@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { Event, RSVP } from '@/types/database';
+import { Event, RSVP, Wish } from '@/types/database';
 
 const API_BASE = '/api';
 
@@ -79,6 +79,19 @@ export const rsvpsAPI = {
     return fetchAPI('/rsvps', {
       method: 'POST',
       body: JSON.stringify(rsvp),
+    });
+  },
+};
+
+export const wishesAPI = {
+  async getByEvent(eventId: string): Promise<Wish[]> {
+    return fetchAPI(`/wishes?event_id=${eventId}`);
+  },
+
+  async create(wish: any): Promise<Wish> {
+    return fetchAPI('/wishes', {
+      method: 'POST',
+      body: JSON.stringify(wish),
     });
   },
 };
