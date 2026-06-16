@@ -32,7 +32,7 @@ export default function TemplateShowcase() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-playfair">
             Template <span className="gold-text">Menarik</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -45,7 +45,7 @@ export default function TemplateShowcase() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
+              className={`px-4 py-2 sm:px-6 sm:py-2 rounded-full font-medium text-sm sm:text-base transition-all ${
                 activeCategory === cat.id
                   ? "bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -100,7 +100,7 @@ export default function TemplateShowcase() {
         <div className="text-center mt-12">
           <Link
             href="/editor/new"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-all hover:scale-105 text-sm sm:text-base"
           >
             Buat Undangan Sekarang
           </Link>

@@ -95,14 +95,14 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          <div className="text-center mb-8">
-            <Link href="/" className="inline-flex items-center gap-2 mb-6">
-              <Heart className="w-10 h-10 text-primary-500 fill-primary-500" />
-              <span className="text-2xl font-bold font-playfair">Undangkuy</span>
+        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-100">
+          <div className="text-center mb-6 sm:mb-8">
+            <Link href="/" className="inline-flex items-center gap-2 mb-4 sm:mb-6">
+              <Heart className="w-8 h-8 sm:w-10 sm:h-10 text-primary-500 fill-primary-500" />
+              <span className="text-xl sm:text-2xl font-bold font-playfair">Undangkuy</span>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Selamat Datang!</h1>
-            <p className="text-gray-500">Masuk untuk mengelola undanganmu</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Selamat Datang!</h1>
+            <p className="text-sm sm:text-base text-gray-500">Masuk untuk mengelola undanganmu</p>
           </div>
 
           <button

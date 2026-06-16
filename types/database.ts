@@ -31,7 +31,7 @@ type Database = {
           id: string;
           name: string;
           thumbnail_url: string;
-          category: 'modern' | 'rustik' | 'tradisional' | 'minimalis' | 'premium';
+          category: 'modern' | 'rustik' | 'tradisional' | 'minimalis';
           config_data: Record<string, unknown>;
           is_active: boolean;
           created_at: string;
@@ -40,7 +40,7 @@ type Database = {
           id?: string;
           name: string;
           thumbnail_url: string;
-          category: 'modern' | 'rustik' | 'tradisional' | 'minimalis' | 'premium';
+          category: 'modern' | 'rustik' | 'tradisional' | 'minimalis';
           config_data?: Record<string, unknown>;
           is_active?: boolean;
           created_at?: string;
@@ -49,7 +49,7 @@ type Database = {
           id?: string;
           name?: string;
           thumbnail_url?: string;
-          category?: 'modern' | 'rustik' | 'tradisional' | 'minimalis' | 'premium';
+          category?: 'modern' | 'rustik' | 'tradisional' | 'minimalis';
           config_data?: Record<string, unknown>;
           is_active?: boolean;
           created_at?: string;
@@ -63,12 +63,6 @@ type Database = {
           title: string;
           event_type: 'pernikahan' | 'ultah' | 'tasyakuran' | 'lainnya';
           couple_names: string | null;
-          bride_name: string | null;
-          groom_name: string | null;
-          bride_photo: string | null;
-          groom_photo: string | null;
-          bride_parent_name: string | null;
-          groom_parent_name: string | null;
           event_date: string;
           event_time: string | null;
           location_name: string;
@@ -77,15 +71,15 @@ type Database = {
           music_embed: string | null;
           video_url: string | null;
           video_embed: string | null;
-          youtube_live_url: string | null;
           template_id: string | null;
           background_effect: string;
           animation_style: string;
           cover_image: string | null;
           gallery_images: string[];
-          love_stories: unknown;
-          digital_envelope: unknown;
           guest_names: string[];
+          template_content: Record<string, unknown>;
+          template_styles: Record<string, unknown>;
+          template_sections: Record<string, unknown>[];
           status: 'draft' | 'published';
           expires_at: string | null;
           created_at: string;
@@ -98,12 +92,6 @@ type Database = {
           title: string;
           event_type: 'pernikahan' | 'ultah' | 'tasyakuran' | 'lainnya';
           couple_names?: string | null;
-          bride_name?: string | null;
-          groom_name?: string | null;
-          bride_photo?: string | null;
-          groom_photo?: string | null;
-          bride_parent_name?: string | null;
-          groom_parent_name?: string | null;
           event_date: string;
           event_time?: string | null;
           location_name: string;
@@ -112,15 +100,15 @@ type Database = {
           music_embed?: string | null;
           video_url?: string | null;
           video_embed?: string | null;
-          youtube_live_url?: string | null;
           template_id?: string | null;
           background_effect?: string;
           animation_style?: string;
           cover_image?: string | null;
           gallery_images?: string[];
-          love_stories?: unknown;
-          digital_envelope?: unknown;
           guest_names?: string[];
+          template_content?: Record<string, unknown>;
+          template_styles?: Record<string, unknown>;
+          template_sections?: Record<string, unknown>[];
           status?: 'draft' | 'published';
           expires_at?: string | null;
           created_at?: string;
@@ -128,17 +116,11 @@ type Database = {
         };
         Update: {
           id?: string;
-          user_id?: string | null;
+          user_id?: string;
           event_path?: string;
           title?: string;
           event_type?: 'pernikahan' | 'ultah' | 'tasyakuran' | 'lainnya';
           couple_names?: string | null;
-          bride_name?: string | null;
-          groom_name?: string | null;
-          bride_photo?: string | null;
-          groom_photo?: string | null;
-          bride_parent_name?: string | null;
-          groom_parent_name?: string | null;
           event_date?: string;
           event_time?: string | null;
           location_name?: string;
@@ -147,15 +129,15 @@ type Database = {
           music_embed?: string | null;
           video_url?: string | null;
           video_embed?: string | null;
-          youtube_live_url?: string | null;
           template_id?: string | null;
           background_effect?: string;
           animation_style?: string;
           cover_image?: string | null;
           gallery_images?: string[];
-          love_stories?: unknown;
-          digital_envelope?: unknown;
           guest_names?: string[];
+          template_content?: Record<string, unknown>;
+          template_styles?: Record<string, unknown>;
+          template_sections?: Record<string, unknown>[];
           status?: 'draft' | 'published';
           expires_at?: string | null;
           created_at?: string;
@@ -191,29 +173,6 @@ type Database = {
           submitted_at?: string;
         };
       };
-      wishes: {
-        Row: {
-          id: string;
-          event_id: string;
-          guest_name: string;
-          message: string;
-          submitted_at: string;
-        };
-        Insert: {
-          id?: string;
-          event_id: string;
-          guest_name: string;
-          message: string;
-          submitted_at?: string;
-        };
-        Update: {
-          id?: string;
-          event_id?: string;
-          guest_name?: string;
-          message?: string;
-          submitted_at?: string;
-        };
-      };
     };
     Views: {};
     Functions: {};
@@ -227,6 +186,5 @@ export type UpdateTables<T extends keyof Database['public']['Tables']> = Databas
 
 export type Event = Tables<'events'>;
 export type RSVP = Tables<'rsvps'>;
-export type Wish = Tables<'wishes'>;
 export type Template = Tables<'templates'>;
 export type User = Tables<'users'>;

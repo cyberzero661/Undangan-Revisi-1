@@ -33,37 +33,21 @@ const config: Config = {
           800: "#916415",
           900: "#774e16",
         },
-        vintage: {
-          cream: "#faf5ee",
-          parchment: "#f5ede0",
-          beige: "#e8dcc8",
-          brown: "#8b7355",
-          darkBrown: "#5c4a32",
-          gold: "#c9a84c",
-          darkGold: "#a67c2e",
-          rose: "#c4a0a0",
-          sage: "#a3b18a",
-          burgundy: "#8b2252",
-        },
       },
       fontFamily: {
-        playfair: ["var(--font-playfair)", "Georgia", "serif"],
+        playfair: ["var(--font-playfair)", "serif"],
         inter: ["var(--font-inter)", "sans-serif"],
-        cormorant: ["var(--font-cormorant)", "Georgia", "serif"],
-        kalam: ["var(--font-kalam)", "cursive"],
       },
       animation: {
         "float": "float 6s ease-in-out infinite",
         "float-delayed": "float 6s ease-in-out 2s infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "sparkle": "sparkle 2s ease-in-out infinite",
-        "fade-in-up": "fadeInUp 0.6s ease-out forwards",
-        "fade-in-left": "fadeInLeft 0.6s ease-out forwards",
-        "fade-in-right": "fadeInRight 0.6s ease-out forwards",
-        "scale-in": "scaleIn 0.5s ease-out forwards",
-        "tape-peel": "tapePeel 0.4s ease-out forwards",
-        "polaroid-appear": "polaroidAppear 0.6s ease-out forwards",
-        "countdown-pulse": "countdownPulse 2s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "glow-expand": "glow-expand 1.2s ease-out forwards",
+        "crease-line": "crease-line 0.6s ease-out forwards",
+        "particle-burst": "particle-burst 0.8s ease-out forwards",
+        "slide-glow": "slide-glow 1.5s ease-in-out infinite",
       },
       keyframes: {
         float: {
@@ -74,38 +58,27 @@ const config: Config = {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.5", transform: "scale(0.8)" },
         },
-        fadeInUp: {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
         },
-        fadeInLeft: {
-          "0%": { opacity: "0", transform: "translateX(-30px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
+        "glow-expand": {
+          "0%": { transform: "scale(0)", opacity: "1" },
+          "100%": { transform: "scale(4)", opacity: "0" },
         },
-        fadeInRight: {
-          "0%": { opacity: "0", transform: "translateX(30px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
+        "crease-line": {
+          "0%": { width: "0%", opacity: "0" },
+          "50%": { width: "100%", opacity: "1" },
+          "100%": { width: "100%", opacity: "0" },
         },
-        scaleIn: {
-          "0%": { opacity: "0", transform: "scale(0.8)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
+        "particle-burst": {
+          "0%": { transform: "translate(0, 0) scale(0)", opacity: "1" },
+          "100%": { transform: "translate(var(--tx), var(--ty)) scale(1.5)", opacity: "0" },
         },
-        tapePeel: {
-          "0%": { opacity: "0", transform: "rotate(-8deg) scaleX(0.5)" },
-          "100%": { opacity: "1", transform: "rotate(-4deg) scaleX(1)" },
+        "slide-glow": {
+          "0%, 100%": { boxShadow: "0 0 8px rgba(212, 175, 55, 0.3)" },
+          "50%": { boxShadow: "0 0 20px rgba(212, 175, 55, 0.6)" },
         },
-        polaroidAppear: {
-          "0%": { opacity: "0", transform: "scale(0.85) rotate(-3deg)" },
-          "100%": { opacity: "1", transform: "scale(1) rotate(0deg)" },
-        },
-        countdownPulse: {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.05)" },
-        },
-      },
-      backgroundImage: {
-        "vintage-paper": "url('/textures/paper-bg.png')",
-        "paper-noise": "url('/textures/noise.png')",
       },
     },
   },

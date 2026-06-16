@@ -1,22 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SupabaseProvider } from "@/lib/providers";
-import { Cormorant_Garamond, Kalam } from "next/font/google";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const kalam = Kalam({
-  subsets: ["latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-kalam",
-  display: "swap",
-});
+import { ToastProvider } from "@/lib/toast";
 
 export const metadata: Metadata = {
   title: "Undangkuy - Platform Undangan Digital Interaktif",
@@ -30,10 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${cormorant.variable} ${kalam.variable}`}>
+    <html lang="id">
       <body className="antialiased">
         <SupabaseProvider>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
         </SupabaseProvider>
       </body>
     </html>

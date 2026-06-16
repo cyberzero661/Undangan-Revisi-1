@@ -98,6 +98,9 @@ export async function POST(request: NextRequest) {
       cover_image,
       gallery_images,
       guest_names,
+      template_content,
+      template_styles,
+      template_sections,
     } = body;
 
     if (!title || !event_type || !event_date || !location_name) {
@@ -137,6 +140,9 @@ export async function POST(request: NextRequest) {
         cover_image,
         gallery_images: gallery_images || [],
         guest_names: guest_names || [],
+        template_content: template_content || {},
+        template_styles: template_styles || {},
+        template_sections: template_sections || [],
         status: eventStatus,
         expires_at: is_guest ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() : null,
       })

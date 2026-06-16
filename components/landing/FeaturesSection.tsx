@@ -23,7 +23,7 @@ export default function FeaturesSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-playfair">
             Fitur <span className="gold-text">Lengkap</span>
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">

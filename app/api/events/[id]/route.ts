@@ -96,6 +96,9 @@ export async function PUT(
         cover_image: body.cover_image,
         gallery_images: body.gallery_images,
         guest_names: body.guest_names || [],
+        template_content: body.template_content || {},
+        template_styles: body.template_styles || {},
+        template_sections: body.template_sections || [],
         status: body.status,
         updated_at: new Date().toISOString(),
       })

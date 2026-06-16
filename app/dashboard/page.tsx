@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { formatDate } from "@/lib/utils";
+import { formatDate, copyToClipboard } from "@/lib/utils";
 import { eventsAPI, rsvpsAPI } from "@/lib/api";
 import { Event } from "@/types/database";
 import {
@@ -28,6 +29,7 @@ import {
   Share2,
 } from "lucide-react";
 import { useSupabaseOptional } from "@/lib/providers";
+import { useToast } from "@/lib/toast";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -40,6 +42,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [shareModal, setShareModal] = useState<{ event: Event; guestName: string } | null>(null);
   const [origin, setOrigin] = useState<string>("");
+  const { toast } = useToast();
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -104,7 +107,7 @@ export default function DashboardPage() {
       await eventsAPI.delete(id);
       setEvents((prev) => prev.filter((e) => e.id !== id));
     } catch (err: any) {
-      alert(err.message || "Gagal menghapus");
+      toast(err.message || "Gagal menghapus", "error");
     }
   };
 
@@ -120,21 +123,21 @@ export default function DashboardPage() {
     menunggu: Object.values(rsvpCounts).reduce((sum, c) => sum + (c.total - c.hadir - c.tidak_hadir), 0),
   };
 
-  const copyLink = (path: string) => {
-    navigator.clipboard.writeText(`${origin}/${path}`);
-    alert("Link berhasil disalin!");
+  const copyLink = async (path: string) => {
+    const ok = await copyToClipboard(`${origin}/${path}`);
+    if (ok) toast("Link berhasil disalin!", "success");
   };
 
   const openShareModal = (event: Event) => {
     setShareModal({ event, guestName: "" });
   };
 
-  const copyShareLink = () => {
+  const copyShareLink = async () => {
     if (!shareModal) return;
     const guestPart = shareModal.guestName.trim() ? `?guest=${encodeURIComponent(shareModal.guestName.trim())}` : "";
     const fullLink = `${origin}/${shareModal.event.event_path}${guestPart}`;
-    navigator.clipboard.writeText(fullLink);
-    alert("Link berhasil disalin!");
+    const ok = await copyToClipboard(fullLink);
+    if (ok) toast("Link berhasil disalin!", "success");
   };
 
   if (!isConfigured) {
@@ -161,7 +164,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
               <Heart className="w-8 h-8 text-primary-500 fill-primary-500" />
-              <span className="text-xl font-bold font-playfair">Undangkuy</span>
+              <span className="hidden sm:inline text-xl font-bold font-playfair">Undangkuy</span>
             </Link>
             <div className="flex items-center gap-4">
               <button className="p-2 text-gray-500 hover:text-gray-700 relative">
@@ -186,31 +189,31 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 font-playfair">Dashboard</h1>
-            <p className="text-gray-500 mt-1">Kelola semua undanganmu di sini</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 font-playfair">Dashboard</h1>
+                  <p className="text-gray-500 text-xs sm:text-sm mt-1">Kelola semua undanganmu di sini</p>
           </div>
           <Link
             href="/editor/new"
-            className="mt-4 md:mt-0 inline-flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/30"
+            className="mt-3 sm:mt-4 md:mt-0 inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/30 text-sm sm:text-base"
           >
             <Plus className="w-5 h-5" />
             Buat Undangan Baru
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
+            className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100"
           >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-blue-600" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{totalStats.events}</p>
-                <p className="text-sm text-gray-500">Total Undangan</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{totalStats.events}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Total Undangan</p>
               </div>
             </div>
           </motion.div>
@@ -226,8 +229,8 @@ export default function DashboardPage() {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{totalStats.hadir}</p>
-                <p className="text-sm text-gray-500">Konfirmasi Hadir</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{totalStats.hadir}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Konfirmasi Hadir</p>
               </div>
             </div>
           </motion.div>
@@ -243,8 +246,8 @@ export default function DashboardPage() {
                 <XCircle className="w-6 h-6 text-red-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{totalStats.tidakHadir}</p>
-                <p className="text-sm text-gray-500">Tidak Hadir</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{totalStats.tidakHadir}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Tidak Hadir</p>
               </div>
             </div>
           </motion.div>
@@ -260,8 +263,8 @@ export default function DashboardPage() {
                 <Clock className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-800">{totalStats.menunggu}</p>
-                <p className="text-sm text-gray-500">Menunggu</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{totalStats.menunggu}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Menunggu</p>
               </div>
             </div>
           </motion.div>
@@ -321,14 +324,19 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="p-6 hover:bg-gray-50 transition-colors"
+                  className="p-4 sm:p-6 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex flex-col md:flex-row md:items-center gap-4">
                     <div className="flex items-center gap-4 flex-1">
-                      <div
-                        className="w-16 h-20 rounded-lg bg-cover bg-center flex-shrink-0"
-                        style={{ backgroundImage: `url(${event.cover_image || '/placeholder.jpg'})` }}
-                      />
+                      <div className="w-16 h-20 rounded-lg overflow-hidden relative flex-shrink-0 bg-gray-100">
+                        {event.cover_image ? (
+                          <Image src={event.cover_image} alt={event.title} fill className="object-cover" sizes="64px" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Calendar className="w-6 h-6 text-gray-300" />
+                          </div>
+                        )}
+                      </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-semibold text-gray-800 truncate">{event.title}</h3>

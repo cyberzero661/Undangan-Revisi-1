@@ -17,20 +17,20 @@ export default function CTASection() {
         viewport={{ once: true }}
         className="relative z-10 container mx-auto px-4 text-center"
       >
-        <Heart className="w-16 h-16 text-white/20 mx-auto mb-8" />
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-playfair">
+        <Heart className="w-12 h-12 sm:w-16 sm:h-16 text-white/20 mx-auto mb-6 sm:mb-8" />
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 font-playfair px-4">
           Siap Membuat Undangan
           <br />
           Digital Impianmu?
         </h2>
-        <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
+        <p className="text-base sm:text-xl text-white/80 max-w-2xl mx-auto mb-8 sm:mb-10 px-4">
           Mulai sekarang dan buat undangan digital yang indah dan berkesan.
           <br />
           <span className="font-semibold text-white">Gratis selamanya, tanpa batasan!</span>
         </p>
         <Link
           href="/editor/new"
-          className="inline-flex items-center gap-3 px-10 py-5 bg-white text-primary-700 rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-2xl"
+          className="inline-flex items-center gap-2 sm:gap-3 px-6 py-4 sm:px-10 sm:py-5 bg-white text-primary-700 rounded-full font-bold text-base sm:text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-2xl"
         >
           <span>Mulai Sekarang</span>
           <ArrowRight className="w-6 h-6" />

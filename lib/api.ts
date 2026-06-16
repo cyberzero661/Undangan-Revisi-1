@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { Event, RSVP, Wish } from '@/types/database';
+import { Event, RSVP } from '@/types/database';
 
 const API_BASE = '/api';
 
@@ -83,19 +83,6 @@ export const rsvpsAPI = {
   },
 };
 
-export const wishesAPI = {
-  async getByEvent(eventId: string): Promise<Wish[]> {
-    return fetchAPI(`/wishes?event_id=${eventId}`);
-  },
-
-  async create(wish: any): Promise<Wish> {
-    return fetchAPI('/wishes', {
-      method: 'POST',
-      body: JSON.stringify(wish),
-    });
-  },
-};
-
 export async function uploadFile(file: File, folder: string = 'general'): Promise<{ url: string; path: string }> {
   const { data: { session } } = await supabase.auth.getSession();
   
@@ -125,4 +112,23 @@ export async function uploadFile(file: File, folder: string = 'general'): Promis
   }
 
   return response.json();
+}
+
+export async function deleteFile(url: string): Promise<void> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) throw new Error('Unauthorized');
+
+  const response = await fetch(`${API_BASE}/upload`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({ url }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Gagal menghapus');
+  }
 }

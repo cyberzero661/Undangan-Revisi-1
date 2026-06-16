@@ -67,7 +67,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold mb-6 font-playfair"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 font-playfair"
         >
           <span className="gold-text">Buat Undangan</span>
           <br />
@@ -78,7 +78,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl text-gray-600 max-w-2xl mx-auto mb-10"
+          className="text-base sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 px-4"
         >
           Platform undangan digital interaktif dengan animasi menarik,
           musik latar, galeri foto, peta lokasi, dan sistem RSVP.
@@ -93,14 +93,14 @@ export default function HeroSection() {
         >
           <Link
             href="/editor/new"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-all hover:scale-105 shadow-lg shadow-primary-500/30"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-all hover:scale-105 shadow-lg shadow-primary-500/30 text-sm sm:text-base"
           >
             Buat Undangan Gratis
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </Link>
           <Link
             href="#templates"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary-600 border-2 border-primary-600 rounded-full font-semibold hover:bg-primary-50 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-white text-primary-600 border-2 border-primary-600 rounded-full font-semibold hover:bg-primary-50 transition-all text-sm sm:text-base"
           >
             Lihat Template
           </Link>
@@ -110,9 +110,9 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="mt-16 flex items-center justify-center gap-8 text-gray-500"
+          className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-gray-500"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <div className="flex -space-x-2">
               {[...Array(4)].map((_, i) => (
                 <div
@@ -123,7 +123,7 @@ export default function HeroSection() {
             </div>
             <span className="text-sm">10,000+ Pengguna</span>
           </div>
-          <div className="h-4 w-px bg-gray-300" />
+          <div className="hidden sm:block h-4 w-px bg-gray-300" />
           <span className="text-sm">Tanpa Batasan Fitur</span>
         </motion.div>
       </div>

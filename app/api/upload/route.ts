@@ -75,3 +75,42 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const supabase = getSupabaseAdmin();
+    const body = await request.json();
+    const { url } = body;
+
+    if (!url) {
+      return NextResponse.json({ error: 'URL tidak ditemukan' }, { status: 400 });
+    }
+
+    // Extract path from public URL: https://xxx.supabase.co/storage/v1/object/public/undangkuy/path/to/file.jpg
+    const storageUrl = supabaseUrl.replace(/\/$/, '');
+    const publicPrefix = `${storageUrl}/storage/v1/object/public/undangkuy/`;
+    
+    let filePath = url;
+    if (url.startsWith(publicPrefix)) {
+      filePath = url.substring(publicPrefix.length);
+    } else if (url.includes('/storage/v1/object/public/undangkuy/')) {
+      const idx = url.indexOf('/storage/v1/object/public/undangkuy/');
+      filePath = url.substring(idx + '/storage/v1/object/public/undangkuy/'.length);
+    }
+
+    if (!filePath) {
+      return NextResponse.json({ error: 'Invalid URL path' }, { status: 400 });
+    }
+
+    const { error } = await supabase.storage.from('undangkuy').remove([decodeURIComponent(filePath)]);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json({ message: 'File deleted' });
+  } catch (error) {
+    console.error('Delete error:', error);
+    return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 });
+  }
+}
