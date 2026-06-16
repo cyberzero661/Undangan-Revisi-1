@@ -33,9 +33,6 @@ const tabs = [
 
 const eventTypes = [
   { id: "pernikahan", label: "Pernikahan" },
-  { id: "ultah", label: "Ulang Tahun" },
-  { id: "tasyakuran", label: "Tasyakuran" },
-  { id: "lainnya", label: "Lainnya" },
 ];
 
 export default function EditorPage() {
@@ -412,13 +409,13 @@ export default function EditorPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Judul Undangan</label>
                   <input type="text" name="title" value={formData.title} onChange={handleInputChange}
-                    placeholder="Contoh: Pernikahan Dea & Adi"
+                    placeholder="Contoh: Pernikahan Fulana & Fulani"
                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Nama Mempelai/Penyelenggara</label>
                   <input type="text" name="couple_names" value={formData.couple_names} onChange={handleInputChange}
-                    placeholder="Contoh: Dea & Adi"
+                    placeholder="Contoh: Fulana & Fulani"
                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">

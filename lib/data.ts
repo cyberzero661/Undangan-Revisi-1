@@ -60,7 +60,7 @@ export const mockEvents: Event[] = [
     id: "1",
     user_id: "user-1",
     event_path: "dea-adi-wedding",
-    title: "Pernikahan Dea & Adi",
+    title: "Pernikahan Fulana & Fulani",
     event_type: "pernikahan",
     event_date: "2026-07-15",
     event_time: "10:00",
@@ -96,7 +96,7 @@ export const mockRSVPs: RSVP[] = [
     guest_name: "Budi Santoso",
     attendance_status: "hadir",
     total_guests: 2,
-    message: "Selamat ya Dea & Adi! Semoga menjadi keluarga sakinah mawaddah warahmah.",
+    message: "Selamat ya Fulana & Fulani! Semoga menjadi keluarga sakinah mawaddah warahmah.",
     submitted_at: "2026-06-05T14:30:00Z",
   },
   {
