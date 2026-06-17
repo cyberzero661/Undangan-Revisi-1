@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Heart, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2 } from "lucide-react";
+import { Heart, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { BrandedSpinner } from "@/components/shared/BrandedLoading";
 import { useSupabaseOptional } from "@/lib/providers";
 
 export default function LoginPage() {
@@ -111,7 +112,7 @@ export default function LoginPage() {
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors mb-6 disabled:opacity-50"
           >
             {isLoading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <BrandedSpinner />
             ) : (
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -198,7 +199,7 @@ export default function LoginPage() {
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <BrandedSpinner />
               ) : (
                 <>
                   Masuk

@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, MapPin, Loader2 } from "lucide-react";
+import { ExternalLink, MapPin } from "lucide-react";
+import { BrandedLoading } from "@/components/shared/BrandedLoading";
 
 interface MapEmbedProps {
   mapsUrl: string;
@@ -52,7 +53,7 @@ export function MapEmbed({ mapsUrl, locationName, primaryColor, mapsButtonText =
     >
       <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-gray-100">
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-0">
-          <Loader2 className="w-8 h-8 text-gray-300 animate-spin" />
+          <BrandedLoading size="md" />
         </div>
         <iframe
           src={embedUrl}

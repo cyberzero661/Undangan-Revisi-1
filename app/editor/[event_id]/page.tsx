@@ -8,9 +8,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Heart, Save, ArrowLeft, Calendar, MapPin, Music, Image as Images,
   Palette, Info, Upload, X, Check, Monitor, Smartphone, Maximize2,
-  Volume2, ChevronDown, Loader2, AlertCircle, User, Copy, ExternalLink, CheckCircle,
+  Volume2, ChevronDown, AlertCircle, User, Copy, ExternalLink, CheckCircle,
   FileText, Eye
 } from "lucide-react";
+import { BrandedLoading, BrandedSpinner } from "@/components/shared/BrandedLoading";
 import { templates } from "@/lib/data";
 import { EditorFormData } from "@/types";
 import { formatFileSize, FILE_LIMITS, formatDate, formatTime, copyToClipboard } from "@/lib/utils";
@@ -325,10 +326,7 @@ export default function EditorPage() {
 
   if (isLoading) return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <Loader2 className="w-12 h-12 text-primary-500 mx-auto mb-4 animate-spin" />
-        <p className="text-gray-500">Memuat...</p>
-      </div>
+      <BrandedLoading size="lg" text="Memuat..." />
     </div>
   );
 
@@ -355,13 +353,13 @@ export default function EditorPage() {
           <button onClick={handleSave} disabled={isSaving || !isLoggedIn}
             className="px-3 sm:px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-1 sm:gap-2 disabled:opacity-50 text-sm"
           >
-            {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {isSaving ? <BrandedSpinner /> : <Save className="w-4 h-4" />}
             <span className="hidden sm:inline">Simpan{isGuest ? "" : " Draf"}</span>
           </button>
           <button onClick={handlePublish} disabled={isSaving}
             className="px-3 sm:px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium disabled:opacity-50 flex items-center gap-1 sm:gap-2 text-sm"
           >
-            {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
+            {isSaving && <BrandedSpinner />}
             <span className="hidden sm:inline">{isGuest ? "Publikasikan (7 hari)" : "Publikasikan"}</span>
             <span className="sm:hidden">Publish</span>
           </button>
@@ -491,7 +489,7 @@ export default function EditorPage() {
                     </div>
                   ) : (
                     <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors mb-3">
-                      {musicUploading ? <Loader2 className="w-5 h-5 text-gray-400 animate-spin" /> : <Upload className="w-5 h-5 text-gray-400" />}
+                      {musicUploading ? <BrandedSpinner /> : <Upload className="w-5 h-5 text-gray-400" />}
                       <span className="text-sm text-gray-500">{musicUploading ? "Mengupload..." : "Upload MP3"}</span>
                       <input type="file" accept="audio/mp3,audio/mpeg" className="hidden" disabled={musicUploading} onChange={(e) => handleFileUpload(e, "music")} />
                     </label>

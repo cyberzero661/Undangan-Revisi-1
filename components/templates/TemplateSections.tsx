@@ -17,8 +17,8 @@ import {
   Users,
   Check,
   X,
-  Loader2,
 } from "lucide-react";
+import { BrandedSpinner } from "@/components/shared/BrandedLoading";
 import { Event, RSVP } from "@/types/database";
 import { TemplateContent, TemplateSection } from "@/types/template";
 import { formatDate, formatTime } from "@/lib/utils";
@@ -369,7 +369,7 @@ export function RSVPSection({
               style={{ backgroundColor: primaryColor }}
             >
               {isSubmitting ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <BrandedSpinner />
               ) : (
                 <Send className="w-5 h-5" />
               )}

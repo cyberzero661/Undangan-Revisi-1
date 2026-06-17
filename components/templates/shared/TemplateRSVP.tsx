@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, X, Loader2, Send } from "lucide-react";
+import { Check, X, Send } from "lucide-react";
+import { BrandedSpinner } from "@/components/shared/BrandedLoading";
 import { TemplateProps } from "./types";
 import { HeaderReveal, SectionReveal, FadeScaleSection } from "./ScrollEffects";
 
@@ -60,7 +61,7 @@ export function TemplateRSVP(props: TemplateProps) {
               <button type="submit" disabled={isSubmitting}
                 className="w-full py-4 rounded-xl font-semibold text-white transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                 style={{ backgroundColor: primaryColor }}>
-                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                {isSubmitting ? <BrandedSpinner /> : <Send className="w-5 h-5" />}
                 {c.submitButtonText}
               </button>
             </FadeScaleSection>

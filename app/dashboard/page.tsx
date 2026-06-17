@@ -24,10 +24,10 @@ import {
   LogOut,
   Bell,
   ChevronRight,
-  Loader2,
   AlertCircle,
   Share2,
 } from "lucide-react";
+import { BrandedLoading } from "@/components/shared/BrandedLoading";
 import { useSupabaseOptional } from "@/lib/providers";
 import { useToast } from "@/lib/toast";
 
@@ -302,8 +302,7 @@ export default function DashboardPage() {
           <div className="divide-y divide-gray-100">
             {isLoading ? (
               <div className="p-12 text-center">
-                <Loader2 className="w-12 h-12 text-primary-500 mx-auto mb-4 animate-spin" />
-                <p className="text-gray-500">Memuat data...</p>
+                <BrandedLoading size="md" text="Memuat data..." />
               </div>
             ) : filteredEvents.length === 0 ? (
               <div className="p-12 text-center">

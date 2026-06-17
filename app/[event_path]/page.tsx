@@ -13,12 +13,12 @@ import {
   Volume2,
   VolumeX,
   ChevronDown,
-  Loader2,
   Flower2,
   CloudSnow,
   Sparkles,
   Crown,
 } from "lucide-react";
+import { BrandedLoading } from "@/components/shared/BrandedLoading";
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 10000;
@@ -150,10 +150,7 @@ export default function InvitationPage({ params }: { params: { event_path: strin
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 text-primary-500 mx-auto mb-4 animate-spin" />
-          <p className="text-gray-500">Memuat undangan...</p>
-        </div>
+        <BrandedLoading size="lg" text="Memuat undangan..." />
       </div>
     );
   }
